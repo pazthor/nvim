@@ -27,12 +27,12 @@ return {
     },
     opts = {
       defaults = {
-        file_ignore_patterns = { 
-          "node_modules", 
-          ".git", 
-          "vendor", 
-          "storage", 
-          "bootstrap/cache" 
+        file_ignore_patterns = {
+          "node_modules",
+          ".git",
+          "vendor",
+          "storage",
+          "bootstrap/cache",
         },
         layout_config = {
           horizontal = {
@@ -63,14 +63,13 @@ return {
         },
         project = {
           base_dirs = {
-            "~/projects",
-            "~/code",
-            "~/work",
+            "~/PhpstormProjects/",
+            "~/Projects/",
           },
           hidden_files = true,
         },
         ["ui-select"] = {
-          require("telescope.themes").get_dropdown {},
+          require("telescope.themes").get_dropdown({}),
         },
       },
     },
@@ -140,14 +139,62 @@ return {
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
-      { "<leader>ha", function() require("harpoon"):list():add() end, desc = "Harpoon add file" },
-      { "<leader>hh", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end, desc = "Harpoon quick menu" },
-      { "<leader>h1", function() require("harpoon"):list():select(1) end, desc = "Harpoon file 1" },
-      { "<leader>h2", function() require("harpoon"):list():select(2) end, desc = "Harpoon file 2" },
-      { "<leader>h3", function() require("harpoon"):list():select(3) end, desc = "Harpoon file 3" },
-      { "<leader>h4", function() require("harpoon"):list():select(4) end, desc = "Harpoon file 4" },
-      { "<leader>hp", function() require("harpoon"):list():prev() end, desc = "Harpoon prev" },
-      { "<leader>hn", function() require("harpoon"):list():next() end, desc = "Harpoon next" },
+      {
+        "<leader>ha",
+        function()
+          require("harpoon"):list():add()
+        end,
+        desc = "Harpoon add file",
+      },
+      {
+        "<leader>hh",
+        function()
+          require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
+        end,
+        desc = "Harpoon quick menu",
+      },
+      {
+        "<leader>h1",
+        function()
+          require("harpoon"):list():select(1)
+        end,
+        desc = "Harpoon file 1",
+      },
+      {
+        "<leader>h2",
+        function()
+          require("harpoon"):list():select(2)
+        end,
+        desc = "Harpoon file 2",
+      },
+      {
+        "<leader>h3",
+        function()
+          require("harpoon"):list():select(3)
+        end,
+        desc = "Harpoon file 3",
+      },
+      {
+        "<leader>h4",
+        function()
+          require("harpoon"):list():select(4)
+        end,
+        desc = "Harpoon file 4",
+      },
+      {
+        "<leader>hp",
+        function()
+          require("harpoon"):list():prev()
+        end,
+        desc = "Harpoon prev",
+      },
+      {
+        "<leader>hn",
+        function()
+          require("harpoon"):list():next()
+        end,
+        desc = "Harpoon next",
+      },
     },
     config = function()
       require("harpoon"):setup()
@@ -295,7 +342,7 @@ return {
     opts = function(_, opts)
       opts.sections = opts.sections or {}
       opts.sections.lualine_x = opts.sections.lualine_x or {}
-      
+
       table.insert(opts.sections.lualine_x, {
         function()
           local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
@@ -323,11 +370,41 @@ return {
     dependencies = "kevinhwang91/promise-async",
     event = "VeryLazy",
     keys = {
-      { "zR", function() require("ufo").openAllFolds() end, desc = "Open all folds" },
-      { "zM", function() require("ufo").closeAllFolds() end, desc = "Close all folds" },
-      { "zr", function() require("ufo").openFoldsExceptKinds() end, desc = "Open folds except kinds" },
-      { "zm", function() require("ufo").closeFoldsWith() end, desc = "Close folds with" },
-      { "zK", function() require("ufo").peekFoldedLinesUnderCursor() end, desc = "Peek folded lines" },
+      {
+        "zR",
+        function()
+          require("ufo").openAllFolds()
+        end,
+        desc = "Open all folds",
+      },
+      {
+        "zM",
+        function()
+          require("ufo").closeAllFolds()
+        end,
+        desc = "Close all folds",
+      },
+      {
+        "zr",
+        function()
+          require("ufo").openFoldsExceptKinds()
+        end,
+        desc = "Open folds except kinds",
+      },
+      {
+        "zm",
+        function()
+          require("ufo").closeFoldsWith()
+        end,
+        desc = "Close folds with",
+      },
+      {
+        "zK",
+        function()
+          require("ufo").peekFoldedLinesUnderCursor()
+        end,
+        desc = "Peek folded lines",
+      },
     },
     config = function()
       require("ufo").setup({
@@ -344,9 +421,27 @@ return {
     build = false,
     cmd = "Spectre",
     keys = {
-      { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
-      { "<leader>sw", function() require("spectre").open_visual({select_word=true}) end, desc = "Search current word" },
-      { "<leader>sp", function() require("spectre").open_file_search({select_word=true}) end, desc = "Search in current file" },
+      {
+        "<leader>sr",
+        function()
+          require("spectre").open()
+        end,
+        desc = "Replace in files (Spectre)",
+      },
+      {
+        "<leader>sw",
+        function()
+          require("spectre").open_visual({ select_word = true })
+        end,
+        desc = "Search current word",
+      },
+      {
+        "<leader>sp",
+        function()
+          require("spectre").open_file_search({ select_word = true })
+        end,
+        desc = "Search in current file",
+      },
     },
     config = function()
       require("spectre").setup()

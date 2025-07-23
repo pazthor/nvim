@@ -1,3 +1,8 @@
+local licence_path = vim.fn.expand("~/.config/intelephense/licence.txt")
+local licence_key = ""
+if vim.fn.filereadable(licence_path) == 1 then
+  licence_key = vim.fn.trim((vim.fn.readfile(licence_path)[1] or ""))
+end
 return {
   -- SvelteJS Support
   {
@@ -35,18 +40,39 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        phpactor = {
-          filetypes = { "php" },
-          root_dir = function(fname)
-            return require("lspconfig.util").root_pattern("composer.json", ".git")(fname)
-          end,
-        },
         intelephense = {
           filetypes = { "php" },
           settings = {
             intelephense = {
+              -- licenceKey = licence_key,
               files = {
                 maxSize = 1000000,
+                associations = { "*.php", "*.phtml" },
+                exclude = {
+                  "**/node_modules/**",
+                  "**/vendor/**/Tests/**",
+                  "**/vendor/**/tests/**",
+                  "**/.git/**",
+                },
+              },
+              completion = {
+                fullyQualifyGlobalConstantsAndFunctions = false,
+                triggerParameterHints = true,
+                insertUseDeclaration = true,
+              },
+              format = {
+                enable = true,
+                braces = "psr12",
+              },
+              environment = {
+                includePaths = { "vendor/" },
+              },
+              diagnostics = {
+                enable = true,
+                undefinedVariables = false,
+              },
+              telemetry = {
+                enabled = false,
               },
             },
           },
@@ -153,16 +179,15 @@ return {
         "eslint-lsp",
         "prettier",
         "eslint_d",
-        
+
         -- PHP/Laravel
         "intelephense",
-        "phpactor",
         "php-cs-fixer",
         "phpstan",
-        
+
         -- Svelte
         "svelte-language-server",
-        
+
         -- General
         "html-lsp",
         "css-lsp",
