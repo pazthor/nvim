@@ -24,6 +24,9 @@ return {
       { "<leader>fq", "<cmd>Telescope quickfix<cr>", desc = "Quickfix" },
       { "<leader>fe", "<cmd>Telescope file_browser<cr>", desc = "File browser" },
       { "<leader>fP", "<cmd>Telescope project<cr>", desc = "Projects" },
+      { "<leader>pc", function() require("project_manager").close_project() end, desc = "Close project" },
+      { "<leader>po", function() require("project_manager").open_project() end, desc = "Open project" },
+      { "<leader>ps", function() require("project_manager").switch_project() end, desc = "Switch project" },
     },
     opts = {
       defaults = {
@@ -59,14 +62,39 @@ return {
         },
         file_browser = {
           hijack_netrw = true,
-          hidden = true,
+          hidden = false,
         },
         project = {
           base_dirs = {
             "~/PhpstormProjects/",
             "~/Projects/",
           },
-          hidden_files = true,
+          hidden_files = false,
+          on_project_selected = function(prompt_bufnr)
+            local actions = require("telescope.actions")
+            local action_state = require("telescope.actions.state")
+            
+            local selection = action_state.get_selected_entry()
+            actions.close(prompt_bufnr)
+            
+            if selection then
+              -- Change to project directory
+              vim.cmd("cd " .. selection.value)
+              
+              -- Try to load session
+              local session_path = vim.fn.stdpath("data") .. "/sessions/" .. 
+                                 selection.value:gsub("/", "_"):gsub("^_", "") .. ".vim"
+              if vim.fn.filereadable(session_path) == 1 then
+                vim.cmd("source " .. session_path)
+                vim.notify("Session loaded: " .. vim.fn.fnamemodify(session_path, ":t"))
+              else
+                -- If no session, open file explorer
+                vim.defer_fn(function()
+                  vim.cmd("Telescope find_files")
+                end, 100)
+              end
+            end
+          end,
         },
         ["ui-select"] = {
           require("telescope.themes").get_dropdown({}),

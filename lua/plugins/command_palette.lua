@@ -40,6 +40,7 @@ return {
         { "<leader>d", group = "Database/Debug" },
         { "<leader>r", group = "Run" },
         { "<leader>q", group = "Quit/Session" },
+        { "<leader>p", group = "Project" },
         
         -- File operations
         { "<leader>fp", desc = "Find files" },
@@ -57,6 +58,11 @@ return {
         { "<leader>fq", desc = "Quickfix" },
         { "<leader>fe", desc = "File browser" },
         { "<leader>fP", desc = "Projects" },
+        
+        -- Project operations
+        { "<leader>pc", desc = "Close current project" },
+        { "<leader>po", desc = "Open project" },
+        { "<leader>ps", desc = "Switch project" },
         
         -- Harpoon
         { "<leader>ha", desc = "Add file to harpoon" },
@@ -247,6 +253,11 @@ return {
             "<leader>fw      Search in files",
             "<leader>fr      Recent files",
             "<leader>fP      Projects",
+            "",
+            "PROJECT MANAGEMENT:",
+            "<leader>pc      Close project",
+            "<leader>po      Open project",
+            "<leader>ps      Switch project",
             "",
             "HARPOON (Quick Files):",
             "<leader>ha      Add file",
