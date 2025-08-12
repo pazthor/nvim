@@ -26,10 +26,10 @@ return {
       })
     end,
     keys = {
-      { "<leader>ut", "<cmd>UsageTrackerShowToday<cr>", desc = "Show today's usage" },
-      { "<leader>uw", "<cmd>UsageTrackerShowWeek<cr>", desc = "Show weekly usage" },
-      { "<leader>um", "<cmd>UsageTrackerShowMonth<cr>", desc = "Show monthly usage" },
-      { "<leader>uf", "<cmd>UsageTrackerShowFile<cr>", desc = "Show current file usage" },
+      { "<leader>ut", "<cmd>UsageTrackerShowDailyAggregation<cr>", desc = "Show daily usage stats" },
+      { "<leader>uw", "<cmd>UsageTrackerShowAgg filepath<cr>", desc = "Show usage by files" },
+      { "<leader>um", "<cmd>UsageTrackerShowFilesLifetime<cr>", desc = "Show lifetime file stats" },
+      { "<leader>uf", "<cmd>UsageTrackerShowVisitLog<cr>", desc = "Show visit log" },
     },
   },
 
@@ -57,10 +57,10 @@ return {
         { "<leader>uk", desc = "Toggle keylog" },
         { "<leader>uh", desc = "Show keystroke heatmap" },
         { "<leader>us", desc = "Show keystroke stats" },
-        { "<leader>ut", desc = "Show today's usage" },
-        { "<leader>uw", desc = "Show weekly usage" },
-        { "<leader>um", desc = "Show monthly usage" },
-        { "<leader>uf", desc = "Show current file usage" },
+        { "<leader>ut", desc = "Show daily usage stats" },
+        { "<leader>uw", desc = "Show usage by files" },
+        { "<leader>um", desc = "Show lifetime file stats" },
+        { "<leader>uf", desc = "Show visit log" },
       })
     end,
   },

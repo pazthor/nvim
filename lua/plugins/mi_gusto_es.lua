@@ -8,6 +8,7 @@ return {
         sources = {
           explorer = {
             hidden = true,
+            show_ignored = true,
           },
         },
       },
