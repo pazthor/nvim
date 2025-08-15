@@ -1,3 +1,7 @@
+-- Description: Database management tools with DDEV integration
+-- Dependencies: vim-dadbod, vim-dadbod-ui
+-- Purpose: Provides database connectivity and management through DDEV
+
 -- Helper function to find DDEV project root directory
 local function find_ddev_root()
   -- Start from current buffer's directory or cwd

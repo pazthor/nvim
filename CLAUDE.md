@@ -17,12 +17,29 @@ This is a Neovim configuration using LazyVim as the starter template. The config
 │   │   ├── options.lua        # Custom vim options
 │   │   ├── keymaps.lua        # Custom keymaps
 │   │   └── autocmds.lua       # Custom autocommands
-│   └── plugins/               # Custom plugin configurations
-│       ├── example.lua        # Example plugin configurations (disabled)
+│   ├── core/                   # Core functionality modules
+│   │   └── settings.lua       # Shared plugin settings and configurations
+│   ├── utils/                  # Utility functions
+│   │   ├── keymaps.lua        # Keymap helper functions
+│   │   └── lsp.lua            # Shared LSP configurations
+│   ├── lang/                   # Language-specific configurations
+│   │   ├── web.lua            # Web development (JS, TS, Svelte, CSS, HTML)
+│   │   └── php.lua            # PHP and Laravel development
+│   └── plugins/               # Plugin configurations by functionality
+│       ├── completion.lua     # Autocompletion and snippets
+│       ├── debugging.lua      # Debug and testing tools
+│       ├── editor.lua         # Core editing functionality
+│       ├── git.lua            # Git integration tools
+│       ├── lsp.lua            # LSP configuration and Mason setup
+│       ├── navigation.lua     # File and code navigation tools
+│       ├── ui.lua             # Interface and visual enhancements
+│       ├── database.lua       # Database tools with DDEV integration
 │       ├── mi_gusto_es.lua    # Custom snacks.nvim configuration
-│       ├── fullstack.lua      # Fullstack development plugins
-│       ├── developer_tools.lua # Enhanced developer tools and navigation
-│       └── command_palette.lua # Command discovery and help system
+│       ├── command_palette.lua # Command discovery and help system
+│       ├── shortcut_recorder.lua # Shortcut recording functionality
+│       ├── usage_tracking.lua # Usage analytics and tracking
+│       ├── obsidian_fake.lua  # Note-taking and organization tools
+│       └── example.lua        # Example plugin configurations (disabled)
 ├── lazy-lock.json             # Locked plugin versions
 ├── lazyvim.json               # LazyVim configuration
 └── stylua.toml                # Lua formatting configuration
@@ -43,11 +60,12 @@ This is a Neovim configuration using LazyVim as the starter template. The config
 - Plugin specifications in `lua/plugins/` extend or modify LazyVim plugins
 
 ### Current Customizations
-- **snacks.nvim**: Configured to show hidden files in explorer (`lua/plugins/mi_gusto_es.lua:10`)
-- **stylua**: Configured for 2-space indentation, 120 column width
-- **Fullstack Development**: Complete setup for SvelteJS, PHP, Laravel, JavaScript, and TypeScript (`lua/plugins/fullstack.lua`)
-- **Developer Tools**: Enhanced search, navigation, and productivity tools (`lua/plugins/developer_tools.lua`)
-- **Command Palette**: Comprehensive command discovery and help system (`lua/plugins/command_palette.lua`)
+- **Core Utilities**: Shared LSP configurations and keymap helpers (`lua/utils/`)
+- **Language Support**: Modular language configurations (`lua/lang/`)
+- **Navigation Tools**: Enhanced file/code navigation with Telescope and Harpoon (`lua/plugins/navigation.lua`)
+- **UI Enhancements**: Improved interface with bufferline, statusline, file tree (`lua/plugins/ui.lua`)
+- **Development Tools**: Git integration, debugging, completion, and editing tools
+- **Specialized Features**: Database tools, usage tracking, note-taking capabilities
 
 ## Common Development Commands
 
@@ -65,45 +83,81 @@ stylua .
 ## Working with This Configuration
 
 ### Adding New Plugins
-1. Create a new file in `lua/plugins/` or add to existing files
-2. Follow LazyVim plugin specification format
-3. Plugins are automatically loaded by lazy.nvim
+1. Determine the appropriate category:
+   - **Language-specific**: Add to `lua/lang/` (web.lua, php.lua, etc.)
+   - **Functionality-based**: Add to `lua/plugins/` (navigation.lua, ui.lua, etc.)
+   - **New category**: Create new file following naming conventions
+2. Follow LazyVim plugin specification format with proper file headers
+3. Use shared utilities from `lua/utils/` for consistency
 
 ### Modifying Existing Plugins
-- Override plugin configurations in `lua/plugins/` files
-- Use LazyVim's plugin extension pattern (see `example.lua` for examples)
+- Language plugins: Modify files in `lua/lang/`
+- Core functionality: Modify files in `lua/plugins/`
+- Shared settings: Update `lua/core/settings.lua`
+- Keymap helpers: Update `lua/utils/keymaps.lua`
+- LSP configurations: Update `lua/utils/lsp.lua`
+
+### Configuration Structure Best Practices
+- **File Headers**: Include description, dependencies, and key bindings
+- **Consistent Organization**: Group related functionality together
+- **Shared Settings**: Use `core/settings.lua` for common configurations
+- **Utility Functions**: Leverage `utils/` modules for reusable code
+- **Modular Design**: Separate concerns by functionality and language
 
 ### Configuration Customization
 - Vim options: `lua/config/options.lua`
 - Keymaps: `lua/config/keymaps.lua`
 - Autocommands: `lua/config/autocmds.lua`
+- Shared settings: `lua/core/settings.lua`
 
-## Fullstack Development Features
+## Language Support Features
 
-### Language Support
-- **SvelteJS**: Full Svelte support with TypeScript and Sass integration
-- **PHP**: Intelephense and PHPActor LSP servers with Laravel support
+### Web Development (`lua/lang/web.lua`)
+- **JavaScript/TypeScript**: Full LSP support with type hints and inlay hints
+- **SvelteJS**: Complete Svelte support with TypeScript and Sass integration
+- **CSS/HTML**: Enhanced support with Tailwind CSS integration
+- **Package Management**: Interactive package.json management with version updates
+
+### PHP Development (`lua/lang/php.lua`)
+- **PHP**: Intelephense LSP server with comprehensive PHP support
 - **Laravel**: Dedicated Laravel plugin with artisan commands and blade templates
-- **JavaScript/TypeScript**: Enhanced support with ESLint, Prettier, and type hints
-- **General**: HTML, CSS, JSON, YAML, SQL support
+- **Code Quality**: PHP-CS-Fixer formatting and PHPStan static analysis
 
 ### Key Bindings for Development
 - `<leader>la` - Laravel artisan commands
-- `<leader>lr` - Laravel routes
+- `<leader>lr` - Laravel routes  
 - `<leader>lm` - Laravel related files
 - `<leader>ns` - Show package.json info
 - `<leader>nu` - Update npm package
 - `<leader>ni` - Install npm package
 
-### Developer Tools Features
+### Core Plugin Categories
 
-#### Enhanced Search & Navigation
-- **Telescope**: Comprehensive fuzzy finder with project management
-- **Harpoon**: Quick file navigation and bookmarking
+#### Navigation Tools (`lua/plugins/navigation.lua`)
+- **Telescope**: Comprehensive fuzzy finder with project management and file browser
+- **Harpoon**: Quick file navigation and bookmarking system
 - **Spectre**: Advanced search and replace across files
-- **Neo-tree**: Enhanced file explorer with Git integration
+- **BQF**: Enhanced quickfix window with better filtering
 
-#### Key Bindings for Navigation
+#### UI Enhancements (`lua/plugins/ui.lua`)
+- **Neo-tree**: Enhanced file explorer with Git integration
+- **BufferLine**: Improved buffer navigation with LSP diagnostics
+- **Lualine**: Enhanced statusline with LSP status display
+- **ToggleTerm**: Multi-mode terminal integration (float, horizontal, vertical)
+
+#### Editor Features (`lua/plugins/editor.lua`)
+- **Comment.nvim**: Smart commenting for all languages
+- **UFO**: Advanced code folding with Tree-sitter support
+
+#### Development Tools
+- **LSP**: Centralized language server configuration (`lua/plugins/lsp.lua`)
+- **Completion**: Intelligent autocompletion with snippets (`lua/plugins/completion.lua`)
+- **Git**: Comprehensive Git integration with Gitsigns and LazyGit (`lua/plugins/git.lua`)
+- **Debugging**: Full debugging support with DAP and Neotest (`lua/plugins/debugging.lua`)
+
+### Key Bindings by Category
+
+#### Navigation (`<leader>f*`, `<leader>h*`)
 - `<leader>fp` - Find files
 - `<leader>fw` - Live grep
 - `<leader>fb` - Buffer search
@@ -112,8 +166,25 @@ stylua .
 - `<leader>ha` - Harpoon add file
 - `<leader>hh` - Harpoon quick menu
 - `<leader>sr` - Search and replace (Spectre)
+
+#### Terminal (`<leader>t*`)
 - `<leader>tt` - Toggle terminal
 - `<leader>tf` - Float terminal
+- `<leader>th` - Horizontal terminal
+- `<leader>tv` - Vertical terminal
+
+#### Git Operations (`<leader>h*`, `<leader>g*`)
+- `<leader>hs` - Stage hunk
+- `<leader>hr` - Reset hunk
+- `<leader>hp` - Preview hunk
+- `<leader>gg` - LazyGit
+
+#### Debugging (`<leader>d*`)
+- `<leader>db` - Toggle breakpoint
+- `<leader>dc` - Continue
+- `<leader>di` - Step into
+- `<leader>do` - Step out
+- `<leader>du` - Toggle DAP UI
 
 ## Command Discovery & Help System
 
@@ -121,38 +192,28 @@ stylua .
 - **`<leader>?`** - Show comprehensive cheat sheet (main help)
 - **`<leader><leader>`** - Command palette (which-key)
 - **`<F1>`** - Show all available commands
-- **`<C-p>`** - Command palette (Telescope)
 
-### Detailed Help Commands
-- `<leader>hk` - Show all keymaps
-- `<leader>hc` - Show all commands
-- `<leader>hh` - Help tags
-- `<leader>ho` - Vim options
-- `<leader>hm` - Man pages
-- `<leader>:` - Commands (Telescope)
-- `<leader>;` - Command history
-
-### Which-Key Integration
-- Enhanced which-key shows organized command groups
-- Categorized by function (Find, Git, Code, etc.)
-- Comprehensive descriptions for all shortcuts
-- Auto-triggered on partial key sequences
-
-#### Productivity Features
-- **ToggleTerm**: Enhanced terminal integration
-- **BufferLine**: Improved buffer navigation with LSP diagnostics
-- **UFO**: Better code folding with Tree-sitter
-- **Comment.nvim**: Smart commenting for all languages
-- **BQF**: Better quickfix window experience
+### Enhanced Command Discovery
+- **Which-Key Integration**: Organized command groups with descriptions
+- **Telescope Commands**: Searchable command palette
+- **Context-Aware Help**: Auto-triggered on partial key sequences
 
 ## Important Notes
 
-- The `example.lua` plugin file is disabled by default (line 3: `if true then return {} end`)
-- LazyVim provides extensive defaults - check LazyVim documentation before adding custom configurations
-- Plugin loading is lazy by default for LazyVim plugins, but custom plugins load at startup unless configured otherwise
-- Mason will automatically install required LSP servers, formatters, and linters on first launch
-- All file patterns ignore common directories like `node_modules`, `vendor`, `storage`, etc.
+### Configuration Structure
+- **Modular Design**: Configuration is organized by functionality and language
+- **Shared Utilities**: Common settings and functions are centralized in `lua/core/` and `lua/utils/`
+- **Consistent Headers**: All plugin files include description, dependencies, and key bindings
+- **LazyVim Integration**: Built on top of LazyVim for extensive defaults and plugin ecosystem
 
-## Development Memories
+### Plugin Management
+- **Automatic Installation**: Mason automatically installs LSP servers, formatters, and linters
+- **Lazy Loading**: LazyVim plugins are lazy-loaded by default for optimal startup performance
+- **Version Locking**: Plugin versions are locked in `lazy-lock.json` for reproducible setups
+- **Ignore Patterns**: File operations ignore common directories like `node_modules`, `vendor`, etc.
 
-- Always update pallete commands when a new command was added
+### Maintenance Guidelines
+- **File Organization**: Add new language support to `lua/lang/`, functionality to `lua/plugins/`
+- **Shared Settings**: Update `lua/core/settings.lua` for common configurations
+- **Utility Functions**: Leverage `lua/utils/` modules for reusable code
+- **Documentation**: Always update CLAUDE.md when adding significant new features

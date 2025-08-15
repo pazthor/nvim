@@ -1,3 +1,7 @@
+-- Description: Command discovery and help system with enhanced which-key
+-- Dependencies: which-key.nvim, telescope.nvim
+-- Keybindings: <leader>?, <F1>, <leader><leader> for command palette
+
 return {
   -- Enhanced which-key for command discovery
   {

@@ -1,3 +1,7 @@
+-- Description: Usage tracking and analytics for Neovim sessions
+-- Dependencies: keylog.nvim, telescope.nvim
+-- Purpose: Tracks keystroke patterns and provides usage analytics
+
 return {
   -- Keystroke logging and heatmaps
 
