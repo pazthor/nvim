@@ -21,7 +21,7 @@ return {
           filetypes = { "php" },
           settings = {
             intelephense = {
-              -- licenceKey = licence_key, -- Uncomment if you have a license
+              licenceKey = licence_key,
               files = {
                 maxSize = 1000000,
                 associations = { "*.php", "*.phtml" },
@@ -128,3 +128,4 @@ return {
     end,
   },
 }
+

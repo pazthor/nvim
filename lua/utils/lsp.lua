@@ -8,7 +8,7 @@ local keymaps = require("utils.keymaps")
 -- Common LSP server settings that can be reused
 M.default_settings = {
   capabilities = nil, -- Will be set in setup
-  on_attach = nil,    -- Will be set in setup
+  on_attach = nil, -- Will be set in setup
 }
 
 -- Common file ignore patterns for all LSP servers
@@ -25,19 +25,19 @@ M.common_ignore_patterns = {
 -- Default capabilities with cmp integration
 function M.get_capabilities()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  
+
   -- Add completion capabilities if nvim-cmp is available
   local ok, cmp_lsp = pcall(require, "cmp_nvim_lsp")
   if ok then
     capabilities = cmp_lsp.default_capabilities(capabilities)
   end
-  
+
   -- Enable folding support
   capabilities.textDocument.foldingRange = {
     dynamicRegistration = false,
     lineFoldingOnly = true,
   }
-  
+
   return capabilities
 end
 
@@ -55,11 +55,11 @@ function M.on_attach(client, bufnr)
     { lhs = "<C-k>", rhs = vim.lsp.buf.signature_help, desc = "Signature help" },
     { lhs = "gr", rhs = vim.lsp.buf.references, desc = "Go to references" },
   }
-  
+
   for _, map in ipairs(lsp_maps) do
     keymaps.buf_map(bufnr, "n", map.lhs, map.rhs, { desc = map.desc })
   end
-  
+
   -- Leader-based LSP keymaps
   keymaps.lsp_map(bufnr, "wa", vim.lsp.buf.add_workspace_folder, "Add workspace folder")
   keymaps.lsp_map(bufnr, "wr", vim.lsp.buf.remove_workspace_folder, "Remove workspace folder")
@@ -72,7 +72,7 @@ function M.on_attach(client, bufnr)
   keymaps.lsp_map(bufnr, "f", function()
     vim.lsp.buf.format({ async = true })
   end, "Format")
-  
+
   -- Diagnostic keymaps
   keymaps.lsp_map(bufnr, "e", vim.diagnostic.open_float, "Open float")
   keymaps.lsp_map(bufnr, "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
@@ -84,7 +84,7 @@ end
 function M.setup()
   M.default_settings.capabilities = M.get_capabilities()
   M.default_settings.on_attach = M.on_attach
-  
+
   -- Configure diagnostic display
   vim.diagnostic.config({
     virtual_text = {
@@ -101,12 +101,12 @@ function M.setup()
       prefix = "",
     },
   })
-  
+
   -- Configure LSP handlers
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
     border = "rounded",
   })
-  
+
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
     border = "rounded",
   })
@@ -125,7 +125,7 @@ M.servers = {
       Lua = {
         runtime = { version = "LuaJIT" },
         diagnostics = { globals = { "vim" } },
-        workspace = { 
+        workspace = {
           library = vim.api.nvim_get_runtime_file("", true),
           checkThirdParty = false,
         },
@@ -133,7 +133,7 @@ M.servers = {
       },
     },
   },
-  
+
   -- JSON language server
   jsonls = {
     settings = {
@@ -144,8 +144,8 @@ M.servers = {
       },
     },
   },
-  
-  -- YAML language server  
+
+  -- YAML language server
   yamlls = {
     settings = {
       yaml = {
@@ -158,6 +158,52 @@ M.servers = {
       },
     },
   },
+
+  -- PHP Intelephense server
+  intelephense = {
+    filetypes = { "php" },
+    settings = {
+      intelephense = {
+        licenceKey = function()
+          local licence_path = vim.fn.expand("~/.config/intelephense/licence.txt")
+          if vim.fn.filereadable(licence_path) == 1 then
+            return vim.fn.trim((vim.fn.readfile(licence_path)[1] or ""))
+          end
+          return ""
+        end,
+        files = {
+          maxSize = 1000000,
+          associations = { "*.php", "*.phtml" },
+          exclude = {
+            "**/node_modules/**",
+            "**/vendor/**/Tests/**",
+            "**/vendor/**/tests/**",
+            "**/.git/**",
+          },
+        },
+        completion = {
+          fullyQualifyGlobalConstantsAndFunctions = false,
+          triggerParameterHints = true,
+          insertUseDeclaration = true,
+        },
+        format = {
+          enable = true,
+          braces = "psr12",
+        },
+        environment = {
+          includePaths = { "vendor/" },
+        },
+        diagnostics = {
+          enable = true,
+          undefinedVariables = false,
+        },
+        telemetry = {
+          enabled = false,
+        },
+      },
+    },
+  },
 }
 
 return M
+

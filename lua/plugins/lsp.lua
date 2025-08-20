@@ -9,7 +9,7 @@ return {
   -- Core LSP configuration
   {
     "neovim/nvim-lspconfig",
-    dependencies = { "williamboman/mason.nvim" },
+    dependencies = { "mason-org/mason.nvim" },
     config = function()
       -- Initialize LSP utilities
       lsp_utils.setup()
@@ -18,7 +18,7 @@ return {
 
   -- Mason package manager
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = vim.tbl_extend("force", settings.mason, {
       ensure_installed = vim.list_extend(settings.mason.ensure_installed, {
         -- Additional tools can be added by other modules
@@ -28,19 +28,20 @@ return {
 
   -- Mason LSP config integration
   {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
     opts = {
       ensure_installed = {
         "lua_ls",
         "jsonls",
         "yamlls",
+        "intelephense",
       },
       automatic_installation = true,
     },
     config = function(_, opts)
       require("mason-lspconfig").setup(opts)
-      
+
       -- Setup servers with default configuration
       require("mason-lspconfig").setup_handlers({
         -- Default handler for all servers
@@ -59,3 +60,4 @@ return {
     ft = { "json", "yaml" },
   },
 }
+
